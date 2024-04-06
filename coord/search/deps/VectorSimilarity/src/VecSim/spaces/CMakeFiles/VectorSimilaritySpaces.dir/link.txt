@@ -1,0 +1,2 @@
+/usr/bin/ar qc libVectorSimilaritySpaces.a CMakeFiles/VectorSimilaritySpaces.dir/space_aux.cpp.o CMakeFiles/VectorSimilaritySpaces.dir/L2_space.cpp.o CMakeFiles/VectorSimilaritySpaces.dir/IP_space.cpp.o CMakeFiles/VectorSimilaritySpaces.dir/spaces.cpp.o
+/usr/bin/ranlib libVectorSimilaritySpaces.a

@@ -47,7 +47,7 @@ void Document_AddField(Document *d, const char *fieldname, RedisModuleString *fi
 
 void Document_AddFieldC(Document *d, const char *fieldname, const char *val, size_t vallen,
                         uint32_t typemask) {
-  RS_LOG_ASSERT(d->flags & DOCUMENT_F_OWNSTRINGS, "Document should own strings");
+  RS_LOG_ASSERT(NULL, d->flags & DOCUMENT_F_OWNSTRINGS, "Document should own strings", "");
   DocumentField *f = addFieldCommon(d, fieldname, typemask);
   f->strval = rm_strndup(val, vallen);
   f->strlen = vallen;
@@ -280,7 +280,7 @@ int Document_ReplyAllFields(RedisModuleCtx *ctx, IndexSpec *spec, RedisModuleStr
   }
 
   size_t hashLen = RedisModule_CallReplyLength(rep);
-  RS_LOG_ASSERT(hashLen % 2 == 0, "Number of elements must be even");
+  RS_LOG_ASSERT(NULL, hashLen % 2 == 0, "Number of elements must be even", "");
   // Zero means the document does not exist in redis
   if (hashLen == 0) {
     RedisModule_ReplyWithArray(ctx, 0);
@@ -301,7 +301,7 @@ int Document_ReplyAllFields(RedisModuleCtx *ctx, IndexSpec *spec, RedisModuleStr
     // parse field
     e = RedisModule_CallReplyArrayElement(rep, i);
     const char *str = RedisModule_CallReplyStringPtr(e, &strLen);
-    RS_LOG_ASSERT(strLen > 0, "field string cannot be empty");
+    RS_LOG_ASSERT(NULL, strLen > 0, "field string cannot be empty", "");
     if ((lang_len == strLen && strncasecmp(str, rule->lang_field, strLen) == 0) ||
         (score_len == strLen && strncasecmp(str, rule->score_field, strLen) == 0) ||
         (payload_len == strLen && strncasecmp(str, rule->payload_field, strLen) == 0)) {

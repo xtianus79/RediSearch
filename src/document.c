@@ -192,7 +192,7 @@ RSAddDocumentCtx *NewAddDocumentCtx(IndexSpec *sp, Document *doc, QueryError *st
     strncpy(aCtx->specName, sp->name, len);
     aCtx->specId = sp->uniqueId;
   }
-  RS_LOG_ASSERT(sp->indexer, "No indexer");
+  RS_LOG_ASSERT(NULL, sp->indexer, "No indexer", "");
 
   // Assign the document:
   aCtx->doc = doc;
@@ -695,7 +695,7 @@ FIELD_PREPROCESSOR(geoPreprocessor) {
     case FLD_VAR_T_BLOB_ARRAY:
     case FLD_VAR_T_NUM:
     case FLD_VAR_T_GEOMETRY:
-      RS_LOG_ASSERT(0, "Oops");
+      RS_LOG_ASSERT(NULL, 0, "Oops", "");
   }
 
   const char *str = NULL;
@@ -992,7 +992,7 @@ static void AddDocumentCtx_UpdateNoIndex(RSAddDocumentCtx *aCtx, RedisSearchCtx 
         md->sortVector = NewSortingVector(sctx->spec->sortables->len);
       }
 
-      RS_LOG_ASSERT((fs->options & FieldSpec_Dynamic) == 0, "Dynamic field cannot use PARTIAL");
+      RS_LOG_ASSERT(NULL, (fs->options & FieldSpec_Dynamic) == 0, "Dynamic field cannot use PARTIAL", "");
 
       switch (fs->types) {
         case INDEXFLD_T_FULLTEXT:
@@ -1056,7 +1056,7 @@ const char *DocumentField_GetValueCStr(const DocumentField *df, size_t *len) {
     case FLD_VAR_T_NUM:
     case FLD_VAR_T_GEO:
     case FLD_VAR_T_GEOMETRY:
-      RS_LOG_ASSERT(0, "invalid types");
+      RS_LOG_ASSERT(NULL, 0, "invalid types", "");
   }
   return NULL;
 }
@@ -1071,7 +1071,7 @@ const char *DocumentField_GetArrayValueCStr(const DocumentField *df, size_t *len
 }
 
 size_t DocumentField_GetArrayValueCStrTotalLen(const DocumentField *df) {
-  RS_LOG_ASSERT(df->unionType == FLD_VAR_T_ARRAY, "must be array");
+  RS_LOG_ASSERT(NULL, df->unionType == FLD_VAR_T_ARRAY, "must be array", "");
   size_t len = 0;
   for (size_t i = 0; i < df->arrayLen; ++i) {
     len += strlen(df->multiVal[i]);

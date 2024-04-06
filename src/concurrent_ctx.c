@@ -200,7 +200,7 @@ void ConcurrentSearch_AddKey(ConcurrentSearchCtx *ctx, ConcurrentReopenCallback 
 }
 
 void ConcurrentSearchCtx_Lock(ConcurrentSearchCtx *ctx) {
-  RS_LOG_ASSERT(!ctx->isLocked, "Redis GIL shouldn't be locked");
+  RS_LOG_ASSERT(NULL, !ctx->isLocked, "Redis GIL shouldn't be locked", "");
   RedisModule_ThreadSafeContextLock(ctx->ctx);
   ctx->isLocked = 1;
   ConcurrentSearchCtx_ReopenKeys(ctx);

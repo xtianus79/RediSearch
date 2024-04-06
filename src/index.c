@@ -83,8 +83,8 @@ static void resetMinIdHeap(UnionIterator *ui) {
   for (int i = 0; i < ui->num; i++) {
     heap_offerx(hp, ui->its[i]);
   }
-  RS_LOG_ASSERT(heap_count(hp) == ui->num,
-                "count should be equal to number of iterators");
+  RS_LOG_ASSERT(NULL, heap_count(hp) == ui->num,
+                "count should be equal to number of iterators", "");
 }
 
 static void UI_HeapAddChildren(UnionIterator *ui, IndexIterator *it) {
@@ -487,7 +487,7 @@ static int UI_SkipToHigh(void *ctx, t_docId docId, RSIndexResult **hit) {
       // iterator is not returned to heap
       continue;
     }
-    RS_LOG_ASSERT(res, "should not be NULL");
+    RS_LOG_ASSERT(NULL, res, "should not be NULL", "");
 
     // refresh heap with iterator with updated minId
     it->minId = res->docId;
@@ -540,7 +540,7 @@ static size_t UI_Len(void *ctx) {
 }
 
 void trimUnionIterator(IndexIterator *iter, size_t offset, size_t limit, bool asc) {
-  RS_LOG_ASSERT(iter->type == UNION_ITERATOR, "trim applies to union iterators only");
+  RS_LOG_ASSERT(NULL, iter->type == UNION_ITERATOR, "trim applies to union iterators only", "");
   UnionIterator *ui = (UnionIterator *)iter;
   if (ui->norig <= 2) { // nothing to trim
     return;
@@ -702,7 +702,7 @@ static void II_SortChildren(IntersectIterator *ctx) {
 }
 
 void AddIntersectIterator(IndexIterator *parentIter, IndexIterator *childIter) {
-  RS_LOG_ASSERT(parentIter->type == INTERSECT_ITERATOR, "add applies to intersect iterators only");
+  RS_LOG_ASSERT(NULL, parentIter->type == INTERSECT_ITERATOR, "add applies to intersect iterators only", "");
   IntersectIterator *ii = (IntersectIterator *)parentIter;
   ii->num++;
   ii->its = rm_realloc(ii->its, ii->num);
@@ -1588,7 +1588,7 @@ PRINT_PROFILE_FUNC(printUnionIt) {
   case QN_LEXRANGE : unionTypeStr = "LEXRANGE"; break;
   case QN_WILDCARD_QUERY : unionTypeStr = "WILDCARD"; break;
   default:
-    RS_LOG_ASSERT(0, "Invalid type for union");
+    RS_LOG_ASSERT(NULL, 0, "Invalid type for union", "");
     break;
   }
   if (!ui->qstr) {
@@ -1669,7 +1669,7 @@ PRINT_PROFILE_FUNC(printMetricIt) {
       break;
     }
     default: {
-      RS_LOG_ASSERT(0, "Invalid type for metric");
+      RS_LOG_ASSERT(NULL, 0, "Invalid type for metric", "");
       break;
     }
   }
@@ -1765,7 +1765,7 @@ void printIteratorProfile(RedisModule_Reply *reply, IndexIterator *root, size_t 
     case HYBRID_ITERATOR:     { printHybridIt(reply, root, counter, cpuTime, depth, limited, config);     break; }
     case METRIC_ITERATOR:     { printMetricIt(reply, root, counter, cpuTime, depth, limited, config);     break; }
     case OPTIMUS_ITERATOR:    { printOptimusIt(reply, root, counter, cpuTime, depth, limited, config);    break; }
-    case MAX_ITERATOR:        { RS_LOG_ASSERT(0, "nope");   break; }
+    case MAX_ITERATOR:        { RS_LOG_ASSERT(NULL, 0, "nope", "");   break; }
   }
 }
 
@@ -1811,7 +1811,7 @@ void Profile_AddIters(IndexIterator **root) {
       break;
     case PROFILE_ITERATOR:
     case MAX_ITERATOR:
-      RS_LOG_ASSERT(0, "Error");
+      RS_LOG_ASSERT(NULL, 0, "Error", "");
   }
 
   // Create a profile iterator and update outparam pointer

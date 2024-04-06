@@ -2065,7 +2065,7 @@ yylhsminor.yy13 = yymsp[0].minor.yy13;
       case 69: /* query ::= text_expr ARROW LSQB vector_query RSQB */ yytestcase(yyruleno==69);
 { // main parse, hybrid query as entire query case.
   setup_trace(ctx);
-  RS_LOG_ASSERT(yymsp[-1].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN");
+  RS_LOG_ASSERT(NULL, yymsp[-1].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN", "");
   ctx->root = yymsp[-1].minor.yy13;
   if (yymsp[-4].minor.yy13) {
     QueryNode_AddChild(yymsp[-1].minor.yy13, yymsp[-4].minor.yy13);
@@ -2076,7 +2076,7 @@ yylhsminor.yy13 = yymsp[0].minor.yy13;
 {  yy_destructor(yypParser,57,&yymsp[-4].minor);
 { // main parse, simple vecsim search as entire query case.
   setup_trace(ctx);
-  RS_LOG_ASSERT(yymsp[-1].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN");
+  RS_LOG_ASSERT(NULL, yymsp[-1].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN", "");
   yymsp[-1].minor.yy13->vn.vq->knn.order = BY_SCORE;
 
   ctx->root = yymsp[-1].minor.yy13;
@@ -2127,7 +2127,7 @@ yylhsminor.yy13 = yymsp[0].minor.yy13;
       case 76: /* query ::= expr ARROW LSQB vector_query RSQB ARROW LB attribute_list RB */
 {
   setup_trace(ctx);
-  RS_LOG_ASSERT(yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN");
+  RS_LOG_ASSERT(NULL, yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN", "");
   ctx->root = yymsp[-5].minor.yy13;
   if (yymsp[-5].minor.yy13 && yymsp[-1].minor.yy95) {
      QueryNode_ApplyAttributes(yymsp[-5].minor.yy13, yymsp[-1].minor.yy95, array_len(yymsp[-1].minor.yy95), ctx->status);
@@ -2142,7 +2142,7 @@ yylhsminor.yy13 = yymsp[0].minor.yy13;
       case 77: /* query ::= text_expr ARROW LSQB vector_query RSQB ARROW LB attribute_list RB */
 {
   setup_trace(ctx);
-  RS_LOG_ASSERT(yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN");
+  RS_LOG_ASSERT(NULL, yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN", "");
   ctx->root = yymsp[-5].minor.yy13;
   if (yymsp[-5].minor.yy13 && yymsp[-1].minor.yy95) {
      QueryNode_ApplyAttributes(yymsp[-5].minor.yy13, yymsp[-1].minor.yy95, array_len(yymsp[-1].minor.yy95), ctx->status);
@@ -2158,7 +2158,7 @@ yylhsminor.yy13 = yymsp[0].minor.yy13;
 {  yy_destructor(yypParser,57,&yymsp[-8].minor);
 {
   setup_trace(ctx);
-  RS_LOG_ASSERT(yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN");
+  RS_LOG_ASSERT(NULL, yymsp[-5].minor.yy13->vn.vq->type == VECSIM_QT_KNN, "vector_query must be KNN", "");
   yymsp[-5].minor.yy13->vn.vq->knn.order = BY_SCORE;
 
   ctx->root = yymsp[-5].minor.yy13;

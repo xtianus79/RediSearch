@@ -1,0 +1,2 @@
+/usr/bin/ar qc libVectorSimilaritySpaces_no_optimization.a CMakeFiles/VectorSimilaritySpaces_no_optimization.dir/L2/L2.cpp.o CMakeFiles/VectorSimilaritySpaces_no_optimization.dir/IP/IP.cpp.o
+/usr/bin/ranlib libVectorSimilaritySpaces_no_optimization.a

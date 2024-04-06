@@ -401,7 +401,7 @@ static void setFilterNode(QueryAST *q, QueryNode *n) {
     // otherwise, add a new phrase node as the parent of the current child of the hybrid vector node,
     // and set its children to be the previous child and the new filter node.
     } else {
-      RS_LOG_ASSERT(QueryNode_NumChildren(q->root) == 1, "Vector query node can have at most one child");
+      RS_LOG_ASSERT(NULL, QueryNode_NumChildren(q->root) == 1, "Vector query node can have at most one child", "");
       QueryNode *nr = NewPhraseNode(0);
       QueryNode_AddChild(nr, n);
       QueryNode_AddChild(nr, q->root->children[0]);
@@ -560,7 +560,7 @@ static int charIterCb(const char *s, size_t n, void *p, void *payload);
  * Used for Prefix, Contains and suffix nodes.
 */
 static IndexIterator *Query_EvalPrefixNode(QueryEvalCtx *q, QueryNode *qn) {
-  RS_LOG_ASSERT(qn->type == QN_PREFIX, "query node type should be prefix");
+  RS_LOG_ASSERT(NULL, qn->type == QN_PREFIX, "query node type should be prefix", "");
 
   // we allow a minimum of 2 letters in the prefix by default (configurable)
   if (qn->pfx.tok.len < q->config->minTermPrefix) {
@@ -624,7 +624,7 @@ static IndexIterator *Query_EvalPrefixNode(QueryEvalCtx *q, QueryNode *qn) {
  * Used for Prefix, Contains and suffix nodes.
 */
 static IndexIterator *Query_EvalWildcardQueryNode(QueryEvalCtx *q, QueryNode *qn) {
-  RS_LOG_ASSERT(qn->type == QN_WILDCARD_QUERY, "query node type should be wildcard query");
+  RS_LOG_ASSERT(NULL, qn->type == QN_WILDCARD_QUERY, "query node type should be wildcard query", "");
 
   IndexSpec *spec = q->sctx->spec;
   Trie *t = spec->terms;
@@ -791,7 +791,7 @@ static IndexIterator *Query_EvalLexRangeNode(QueryEvalCtx *q, QueryNode *lx) {
 }
 
 static IndexIterator *Query_EvalFuzzyNode(QueryEvalCtx *q, QueryNode *qn) {
-  RS_LOG_ASSERT(qn->type == QN_FUZZY, "query node type should be fuzzy");
+  RS_LOG_ASSERT(NULL, qn->type == QN_FUZZY, "query node type should be fuzzy", "");
 
   Trie *terms = q->sctx->spec->terms;
 

@@ -36,7 +36,7 @@ extern int RS_Initialized;
 
 #define RS_AutoMemory(ctx)                      \
 do {                                            \
-  RS_LOG_ASSERT(ctx != RSDummyContext, "");     \
+  RS_LOG_ASSERT(NULL, ctx != RSDummyContext, "", "");     \
   RedisModule_AutoMemory(ctx);                  \
 } while (0)
 

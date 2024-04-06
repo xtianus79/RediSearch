@@ -131,7 +131,7 @@ static void addToIov(const char *s, size_t n, Array *b) {
     return;
   }
   struct iovec *iov = Array_Add(b, sizeof(*iov));
-  RS_LOG_ASSERT(iov, "failed to create iov");
+  RS_LOG_ASSERT(NULL, iov, "failed to create iov", "");
   iov->iov_base = (void *)s;
   iov->iov_len = n;
 }
@@ -230,7 +230,7 @@ char *FragmentList_HighlightWholeDocS(const FragmentList *fragList, const Highli
   }
 
   char *docBuf = rm_malloc(docLen + 1);
-  RS_LOG_ASSERT(docBuf, "failed malloc of docBuf");
+  RS_LOG_ASSERT(NULL, docBuf, "failed malloc of docBuf", "");
   docBuf[docLen] = '\0';
   
   size_t offset = 0;

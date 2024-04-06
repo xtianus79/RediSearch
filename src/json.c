@@ -392,7 +392,7 @@ int JSON_StoreTextInDocField(size_t len, JSONIterable *iterable, struct Document
       goto error;
     }
   }
-  RS_LOG_ASSERT ((i + nulls) == len, "TEXT/TAG iterator count and len must be equal");
+  RS_LOG_ASSERT (NULL, (i + nulls) == len, "TEXT/TAG iterator count and len must be equal", "");
   // Remain with surplus unused array entries from skipped null values until `Document_Clear` is called
   df->arrayLen = i;
   df->unionType = FLD_VAR_T_ARRAY;
@@ -440,7 +440,7 @@ int JSON_StoreNumericInDocField(size_t len, JSONIterable *iterable, struct Docum
       goto error;
     }
   }
-  RS_LOG_ASSERT ((array_len(arr) + nulls) == len, "NUMERIC iterator count and len must be equal");
+  RS_LOG_ASSERT (NULL, (array_len(arr) + nulls) == len, "NUMERIC iterator count and len must be equal", "");
   df->arrNumval = arr;
   df->unionType = FLD_VAR_T_ARRAY;
   return REDISMODULE_OK;
@@ -543,7 +543,7 @@ int JSON_StoreInDocField(RedisJSON json, JSONType jsonType, FieldSpec *fs, struc
       }
       break;
     case JSONType__EOF:
-      RS_LOG_ASSERT(0, "Should not happen");
+      RS_LOG_ASSERT(NULL, 0, "Should not happen", "");
   }
 
   return rv;

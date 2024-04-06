@@ -68,7 +68,7 @@ void addSuffixTrie(Trie *trie, const char *str, uint32_t len) {
     RSPayload payload = { .data = (char*)&newdata, .len = sizeof(newdata) };
     TrieNode_Add(&trie->root, runes, rlen, &payload, 1, ADD_REPLACE, trie->freecb);
   } else {
-    RS_LOG_ASSERT(!data->term, "can't reach here");
+    RS_LOG_ASSERT(NULL, !data->term, "can't reach here", "");
     data->term = copyStr;
     data->array = array_ensure_append_1(data->array, copyStr);
   }
@@ -129,7 +129,7 @@ void deleteSuffixTrie(Trie *trie, const char *str, uint32_t len) {
     removeSuffix(str, len, data->array);
     // if array is empty, remove the node
     if (array_len(data->array) == 0) {
-      RS_LOG_ASSERT(!data->term, "array should contain a pointer to the string");
+      RS_LOG_ASSERT(NULL, !data->term, "array should contain a pointer to the string", "");
       Trie_DeleteRunes(trie, runes + j, rlen - j);
     }
   }
@@ -377,7 +377,7 @@ void addSuffixTrieMap(TrieMap *trie, const char *str, uint32_t len) {
     data->array = array_ensure_append_1(data->array, copyStr);
     TrieMap_Add(trie, copyStr, len, data, NULL);
   } else {    // node exists as suffix for other term
-    RS_LOG_ASSERT(!data->term, "can't reach here");
+    RS_LOG_ASSERT(NULL, !data->term, "can't reach here", "");
     data->term = copyStr;
     data->array = array_ensure_append_1(data->array, copyStr);
   }
@@ -417,7 +417,7 @@ void deleteSuffixTrieMap(TrieMap *trie, const char *str, uint32_t len) {
     removeSuffix(str, len, data->array);
     // if array is empty, remove the node
     if (array_len(data->array) == 0) {
-      RS_LOG_ASSERT(!data->term, "array should contain a pointer to the string");
+      RS_LOG_ASSERT(NULL, !data->term, "array should contain a pointer to the string", "");
       TrieMap_Delete(trie, str + j, len - j, (freeCB)freeSuffixNode);
     }
   }

@@ -62,12 +62,12 @@ static void Cursor_RemoveFromIdle(Cursor *cur) {
 static void Cursor_FreeInternal(Cursor *cur, khiter_t khi) {
   CursorList *cl = getCursorList(cur->is_coord);
   /* Decrement the used count */
-  RS_LOG_ASSERT(khi != kh_end(cl->lookup), "Iterator shouldn't be at end of cursor list");
-  RS_LOG_ASSERT(kh_get(cursors, cl->lookup, cur->id) != kh_end(cl->lookup),
-                                                    "Cursor was not found");
+  RS_LOG_ASSERT(NULL, khi != kh_end(cl->lookup), "Iterator shouldn't be at end of cursor list", "");
+  RS_LOG_ASSERT(NULL, kh_get(cursors, cl->lookup, cur->id) != kh_end(cl->lookup),
+                                                    "Cursor was not found", "");
   kh_del(cursors, cl->lookup, khi);
-  RS_LOG_ASSERT(kh_get(cursors, cl->lookup, cur->id) == kh_end(cl->lookup),
-                                                    "Failed to delete cursor");
+  RS_LOG_ASSERT(NULL, kh_get(cursors, cl->lookup, cur->id) == kh_end(cl->lookup),
+                                                    "Failed to delete cursor", "");
   if (cur->execState) {
     Cursor_FreeExecState(cur->execState);
     cur->execState = NULL;

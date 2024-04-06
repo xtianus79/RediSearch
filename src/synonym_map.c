@@ -142,7 +142,7 @@ void SynonymMap_Add(SynonymMap* smap, const char* groupId, const char** synonyms
 }
 
 void SynonymMap_Update(SynonymMap* smap, const char** synonyms, size_t size, const char* groupId) {
-  RS_LOG_ASSERT(!smap->is_read_only, "SynonymMap should not be read only");
+  RS_LOG_ASSERT(NULL, !smap->is_read_only, "SynonymMap should not be read only", "");
   int ret;
   for (size_t i = 0; i < size; i++) {
     char *lowerSynonym = rm_strdup(synonyms[i]);
@@ -203,7 +203,7 @@ static SynonymMap* SynonymMap_GenerateReadOnlyCopy(SynonymMap* smap) {
 }
 
 SynonymMap* SynonymMap_GetReadOnlyCopy(SynonymMap* smap) {
-  RS_LOG_ASSERT(!smap->is_read_only, "SynonymMap should not be read only");
+  RS_LOG_ASSERT(NULL, !smap->is_read_only, "SynonymMap should not be read only", "");
   if (!smap->read_only_copy) {
     // create a new read only copy and return it
     smap->read_only_copy = SynonymMap_GenerateReadOnlyCopy(smap);

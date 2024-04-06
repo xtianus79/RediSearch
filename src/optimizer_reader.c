@@ -65,7 +65,7 @@ static void OPT_Rewind(void *ctx) {
 
   int resultsCollectedSinceLast = heap_count(heap) - optIt->heapOldSize;
   double successRatio = resultsCollectedSinceLast / optIt->lastLimitEstimate;
-  RS_LOG_ASSERT(successRatio < 1, "successRatio == 1 means heap is full");
+  RS_LOG_ASSERT(NULL, successRatio < 1, "successRatio == 1 means heap is full", "");
 
   // very low success, lets get all remaining results
   if (successRatio < 0.01 || optIt->numIterations == 3) {
@@ -162,7 +162,7 @@ int OPT_Read(void *ctx, RSIndexResult **e) {
           *it->pooledResult = *numericRes;
         } else {
           RSIndexResult *child = numericRes->agg.children[0];
-          RS_LOG_ASSERT(child->type == RSResultType_Numeric, "???");
+          RS_LOG_ASSERT(NULL, child->type == RSResultType_Numeric, "???", "");
           *it->pooledResult = *(child);
         }
 

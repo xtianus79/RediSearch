@@ -121,7 +121,7 @@ RedisModule_Reply RedisModule_NewReply(RedisModuleCtx *ctx) {
 }
 
 int RedisModule_EndReply(RedisModule_Reply *reply) {
-  RS_LOG_ASSERT(!reply->stack || !array_len(reply->stack), "incomplete reply");
+  RS_LOG_ASSERT(NULL, !reply->stack || !array_len(reply->stack), "incomplete reply", "");
   if (reply->stack) {
     array_free(reply->stack);
   }
@@ -157,7 +157,7 @@ static void _RedisModule_Reply_Push(RedisModule_Reply *reply, int type) {
 }
 
 static int _RedisModule_Reply_Pop(RedisModule_Reply *reply) {
-  RS_LOG_ASSERT(reply->stack && array_len(reply->stack) > 0, "incomplete reply");
+  RS_LOG_ASSERT(NULL, reply->stack && array_len(reply->stack) > 0, "incomplete reply", "");
   if (reply->stack && array_len(reply->stack) > 0) {
     StackEntry *e = &array_tail(reply->stack);
     int count = e->count;
@@ -241,7 +241,7 @@ void RedisModule_Reply_QueryError(RedisModule_Reply *reply, QueryError *error) {
 }
 
 int RedisModule_Reply_Map(RedisModule_Reply *reply) {
-  RS_LOG_ASSERT(!RedisModule_Reply_LocalIsKey(reply), "reply: should not write a map as a key");
+  RS_LOG_ASSERT(NULL, !RedisModule_Reply_LocalIsKey(reply), "reply: should not write a map as a key", "");
 
   int type;
   if (reply->resp3) {
@@ -274,7 +274,7 @@ int RedisModule_Reply_MapEnd(RedisModule_Reply *reply) {
 }
 
 int RedisModule_Reply_Array(RedisModule_Reply *reply) {
-  RS_LOG_ASSERT(!RedisModule_Reply_LocalIsKey(reply), "reply: should not write an array as a key");
+  RS_LOG_ASSERT(NULL, !RedisModule_Reply_LocalIsKey(reply), "reply: should not write an array as a key", "");
 
   RedisModule_ReplyWithArray(reply->ctx, REDISMODULE_POSTPONED_ARRAY_LEN);
   json_add(reply, true, "[ ");

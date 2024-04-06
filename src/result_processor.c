@@ -931,14 +931,14 @@ static char *RPTypeLookup[RP_MAX] = {"Index",   "Loader",    "Threadsafe-Loader"
                                      "Network", "Metrics Applier"};
 
 const char *RPTypeToString(ResultProcessorType type) {
-  RS_LOG_ASSERT(type >= 0 && type < RP_MAX, "enum is out of range");
+  RS_LOG_ASSERT(NULL, type >= 0 && type < RP_MAX, "enum is out of range", "");
   return RPTypeLookup[type];
 }
 
 void RP_DumpChain(const ResultProcessor *rp) {
   for (; rp; rp = rp->upstream) {
     printf("RP(%s) @%p\n", RPTypeToString(rp->type), rp);
-    RS_LOG_ASSERT(rp->upstream != rp, "ResultProcessor should be different then upstream");
+    RS_LOG_ASSERT(NULL, rp->upstream != rp, "ResultProcessor should be different then upstream", "");
   }
 }
 

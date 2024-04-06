@@ -47,7 +47,7 @@ void FieldSpec_Cleanup(FieldSpec* fs) {
 }
 
 void FieldSpec_SetSortable(FieldSpec* fs) {
-  RS_LOG_ASSERT(!(fs->options & FieldSpec_Dynamic), "dynamic fields cannot be sortable");
+  RS_LOG_ASSERT(NULL, !(fs->options & FieldSpec_Dynamic), "dynamic fields cannot be sortable", "");
   fs->options |= FieldSpec_Sortable;
 }
 
@@ -61,7 +61,7 @@ const char *FieldSpec_GetTypeNames(int idx) {
   case IXFLDPOS_GEOMETRY: return SPEC_GEOMETRY_STR;
 
   default:
-    RS_LOG_ASSERT(0, "oops");
+    RS_LOG_ASSERT(NULL, 0, "oops", "");
     break;
   }
 }

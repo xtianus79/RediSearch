@@ -201,7 +201,7 @@ void RSValue_SetConstString(RSValue *v, const char *str, size_t len);
 
 #ifndef __cplusplus
 static inline void RSValue_MakeReference(RSValue *dst, RSValue *src) {
-  RS_LOG_ASSERT(src, "RSvalue is missing");
+  RS_LOG_ASSERT(NULL, src, "RSvalue is missing", "");
   RSValue_Clear(dst);
   dst->t = RSValue_Reference;
   dst->ref = RSValue_IncrRef(src);

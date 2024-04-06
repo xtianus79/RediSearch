@@ -117,7 +117,7 @@ int RediSearch_ValidateLanguage(const char *lang) {
 
 RSFieldID RediSearch_CreateField(RefManager* rm, const char* name, unsigned types,
                                  unsigned options) {
-  RS_LOG_ASSERT(types, "types should not be RSFLDTYPE_DEFAULT");
+  RS_LOG_ASSERT(NULL, types, "types should not be RSFLDTYPE_DEFAULT", "");
   RWLOCK_ACQUIRE_WRITE();
   IndexSpec *sp = __RefManager_Get_Object(rm);
 
@@ -194,21 +194,21 @@ RSFieldID RediSearch_CreateField(RefManager* rm, const char* name, unsigned type
 void RediSearch_TextFieldSetWeight(RefManager* rm, RSFieldID id, double w) {
   IndexSpec *sp = __RefManager_Get_Object(rm);
   FieldSpec* fs = sp->fields + id;
-  RS_LOG_ASSERT(FIELD_IS(fs, INDEXFLD_T_FULLTEXT), "types should be INDEXFLD_T_FULLTEXT");
+  RS_LOG_ASSERT(NULL, FIELD_IS(fs, INDEXFLD_T_FULLTEXT), "types should be INDEXFLD_T_FULLTEXT", "");
   fs->ftWeight = w;
 }
 
 void RediSearch_TagFieldSetSeparator(RefManager* rm, RSFieldID id, char sep) {
   IndexSpec *sp = __RefManager_Get_Object(rm);
   FieldSpec* fs = sp->fields + id;
-  RS_LOG_ASSERT(FIELD_IS(fs, INDEXFLD_T_TAG), "types should be INDEXFLD_T_TAG");
+  RS_LOG_ASSERT(NULL, FIELD_IS(fs, INDEXFLD_T_TAG), "types should be INDEXFLD_T_TAG", "");
   fs->tagOpts.tagSep = sep;
 }
 
 void RediSearch_TagFieldSetCaseSensitive(RefManager* rm, RSFieldID id, int enable) {
   IndexSpec *sp = __RefManager_Get_Object(rm);
   FieldSpec* fs = sp->fields + id;
-  RS_LOG_ASSERT(FIELD_IS(fs, INDEXFLD_T_TAG), "types should be INDEXFLD_T_TAG");
+  RS_LOG_ASSERT(NULL, FIELD_IS(fs, INDEXFLD_T_TAG), "types should be INDEXFLD_T_TAG", "");
   if (enable) {
     fs->tagOpts.tagFlags |= TagField_CaseSensitive;
   } else {
@@ -604,7 +604,7 @@ static RS_ApiIter* handleIterCommon(IndexSpec* sp, QueryInput* input, char** err
 
   IndexSpec_GetStats(sp, &it->scargs.indexStats);
   ExtScoringFunctionCtx* scoreCtx = Extensions_GetScoringFunction(&it->scargs, DEFAULT_SCORER_NAME);
-  RS_LOG_ASSERT(scoreCtx, "GetScoringFunction failed");
+  RS_LOG_ASSERT(NULL, scoreCtx, "GetScoringFunction failed", "");
   it->scorer = scoreCtx->sf;
   it->scorerFree = scoreCtx->ff;
   it->minscore = DBL_MAX;

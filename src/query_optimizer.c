@@ -153,7 +153,7 @@ void QOptimizer_QueryNodes(QueryNode *root, QOptimizer *opt) {
   QueryNode *parentNode = NULL;
   QueryNode *numSortbyNode = checkQueryTypes(root, name, &parentNode, &opt->scorerReq);
   if (numSortbyNode && numSortbyNode != INVALUD_PTR) {
-    RS_LOG_ASSERT(numSortbyNode->type == QN_NUMERIC, "found it");
+    RS_LOG_ASSERT(NULL, numSortbyNode->type == QN_NUMERIC, "found it", "");
     // numeric is part of an intersect. remove it for optimizer reader
     if (parentNode) {
       for (int i = 0; i < QueryNode_NumChildren(parentNode); ++i) {
@@ -216,7 +216,7 @@ void QOptimizer_Iterators(AREQ *req, QOptimizer *opt) {
 
   switch (opt->type) {
     case Q_OPT_HYBRID:
-      RS_LOG_ASSERT(0, "cannot be decided earlier");
+      RS_LOG_ASSERT(NULL, 0, "cannot be decided earlier", "");
 
     // Nothing to do here
     case Q_OPT_NO_SORTER:

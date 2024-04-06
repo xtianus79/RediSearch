@@ -24,7 +24,7 @@
 #define DMD_Incref(md)                                                        \
   ({                                                                          \
     uint16_t count = __atomic_fetch_add(&md->ref_count, 1, __ATOMIC_RELAXED); \
-    RS_LOG_ASSERT(count < (1 << 16) - 1, "overflow of dmd ref_count");        \
+    RS_LOG_ASSERT(NULL, count < (1 << 16) - 1, "overflow of dmd ref_count", "");        \
   })
 
 /* Creates a new DocTable with a given capacity */
@@ -190,7 +190,7 @@ int DocTable_SetSortingVector(DocTable *t, RSDocumentMetadata *dmd, RSSortingVec
     return 1;
   }*/
   // LCOV_EXCL_STOP
-  RS_LOG_ASSERT(v, "Sorting vector does not exist");  // tested in doAssignIds()
+  RS_LOG_ASSERT(NULL, v, "Sorting vector does not exist", "");  // tested in doAssignIds()
 
   /* Set th new vector and the flags accordingly */
   dmd->sortVector = v;
@@ -426,7 +426,7 @@ void DocTable_RdbSave(DocTable *t, RedisModuleIO *rdb) {
       ++elements_written;
     }
   }
-  RS_LOG_ASSERT((elements_written + 1 == t->size), "Wrong number of written elements");
+  RS_LOG_ASSERT(NULL, (elements_written + 1 == t->size), "Wrong number of written elements", "");
 }
 
 void DocTable_LegacyRdbLoad(DocTable *t, RedisModuleIO *rdb, int encver) {

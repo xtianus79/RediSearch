@@ -39,7 +39,7 @@ static int AliasTable_Add(AliasTable *table, const char *alias, StrongRef spec_r
     QueryError_SetError(error, QUERY_EINDEXEXISTS, "Alias already exists");
     return REDISMODULE_ERR;
   }
-  RS_LOG_ASSERT(e->key != alias, "Alias should be different than key");
+  RS_LOG_ASSERT(NULL, e->key != alias, "Alias should be different than key", "");
   // Dictionary holds a pointer tho the spec manager. Its the same reference owned by the specs dictionary.
   e->v.val = spec_ref.rm;
   if (!(options & INDEXALIAS_NO_BACKREF)) {
@@ -75,7 +75,7 @@ static int AliasTable_Del(AliasTable *table, const char *alias, StrongRef spec_r
     spec->aliases = array_del_fast(spec->aliases, idx);
   }
   int rc = dictDelete(table->d, alias);
-  RS_LOG_ASSERT(rc == DICT_OK, "Dictionary delete failed");
+  RS_LOG_ASSERT(NULL, rc == DICT_OK, "Dictionary delete failed", "");
   if (table->on_del) {
     table->on_del(alias, spec);
   }
@@ -113,7 +113,7 @@ void IndexSpec_ClearAliases(StrongRef spec_ref) {
     char **pp = sp->aliases + ii;
     QueryError e = {0};
     int rc = IndexAlias_Del(*pp, spec_ref, INDEXALIAS_NO_BACKREF, &e);
-    RS_LOG_ASSERT(rc == REDISMODULE_OK, "Alias delete has failed");
+    RS_LOG_ASSERT(NULL, rc == REDISMODULE_OK, "Alias delete has failed", "");
     rm_free(*pp);
     // set to NULL so IndexAlias_Del skips over this
     *pp = NULL;

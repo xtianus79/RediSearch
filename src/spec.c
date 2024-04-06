@@ -1225,7 +1225,7 @@ static IndexSpecCache *IndexSpec_BuildSpecCache(const IndexSpec *spec) {
 }
 
 IndexSpecCache *IndexSpec_GetSpecCache(const IndexSpec *spec) {
-  RS_LOG_ASSERT(spec->spcache, "Index spec cache is NULL");
+  RS_LOG_ASSERT(NULL, spec->spcache, "Index spec cache is NULL", "");
   __atomic_fetch_add(&spec->spcache->refcount, 1, __ATOMIC_RELAXED);
   return spec->spcache;
 }
@@ -1541,7 +1541,7 @@ RedisModuleString *IndexSpec_GetFormattedKey(IndexSpec *sp, const FieldSpec *fs,
         abort();
         break;
     }
-    RS_LOG_ASSERT(ret, "Failed to create index string");
+    RS_LOG_ASSERT(NULL, ret, "Failed to create index string", "");
     sp->indexStrs[fs->index].types[typeix] = ret;
   }
   return ret;
@@ -1622,14 +1622,14 @@ FieldSpec *IndexSpec_CreateField(IndexSpec *sp, const char *name, const char *pa
   fs->sortIdx = -1;
   fs->tagOpts.tagFlags = TAG_FIELD_DEFAULT_FLAGS;
   if (!(sp->flags & Index_FromLLAPI)) {
-    RS_LOG_ASSERT((sp->rule), "index w/o a rule?");
+    RS_LOG_ASSERT(NULL, (sp->rule), "index w/o a rule?", "");
     switch (sp->rule->type) {
       case DocumentType_Hash:
         fs->tagOpts.tagSep = TAG_FIELD_DEFAULT_HASH_SEP; break;
       case DocumentType_Json:
         fs->tagOpts.tagSep = TAG_FIELD_DEFAULT_JSON_SEP; break;
       case DocumentType_Unsupported:
-        RS_LOG_ASSERT(0, "shouldn't get here");
+        RS_LOG_ASSERT(NULL, 0, "shouldn't get here", "");
     }
   }
   fs->indexError = IndexError_Init();
@@ -1666,7 +1666,7 @@ void IndexSpec_StartGCFromSpec(StrongRef global, IndexSpec *sp, uint32_t gcPolic
  * index after removing documents */
 // Only used on new specs so it's thread safe
 void IndexSpec_StartGC(RedisModuleCtx *ctx, StrongRef global, IndexSpec *sp) {
-  RS_LOG_ASSERT(!sp->gc, "GC already exists");
+  RS_LOG_ASSERT(NULL, !sp->gc, "GC already exists", "");
   // we will not create a gc thread on temporary index
   if (RSGlobalConfig.gcConfigParams.enableGC && !(sp->flags & Index_Temporary)) {
     sp->gc = GCContext_CreateGC(global, RSGlobalConfig.gcConfigParams.gcPolicy);
@@ -1772,7 +1772,7 @@ static int FieldSpec_RdbLoad(RedisModuleIO *rdb, FieldSpec *f, StrongRef sp_ref,
   f->sortIdx = LoadSigned_IOError(rdb, goto fail);
 
   if (encver < INDEX_MIN_MULTITYPE_VERSION) {
-    RS_LOG_ASSERT(f->types <= IDXFLD_LEGACY_MAX, "field type should be string or numeric");
+    RS_LOG_ASSERT(NULL, f->types <= IDXFLD_LEGACY_MAX, "field type should be string or numeric", "");
     f->types = fieldTypeMap[f->types];
   }
 
@@ -1787,7 +1787,7 @@ static int FieldSpec_RdbLoad(RedisModuleIO *rdb, FieldSpec *f, StrongRef sp_ref,
     // Load the separator
     size_t l;
     char *s = LoadStringBuffer_IOError(rdb, &l, goto fail);
-    RS_LOG_ASSERT(l == 1, "buffer length should be 1");
+    RS_LOG_ASSERT(NULL, l == 1, "buffer length should be 1", "");
     f->tagOpts.tagSep = *s;
     RedisModule_Free(s);
   }
@@ -2003,7 +2003,7 @@ static void Indexes_ScanProc(RedisModuleCtx *ctx, RedisModuleString *keyname, Re
 //---------------------------------------------------------------------------------------------
 
 static void Indexes_ScanAndReindexTask(IndexesScanner *scanner) {
-  RS_LOG_ASSERT(scanner, "invalid IndexesScanner");
+  RS_LOG_ASSERT(NULL, scanner, "invalid IndexesScanner", "");
 
   RedisModuleCtx *ctx = RedisModule_GetThreadSafeContext(NULL);
   RedisModuleScanCursor *cursor = RedisModule_ScanCursorCreate();
@@ -2754,7 +2754,7 @@ int IndexSpec_UpdateDoc(IndexSpec *spec, RedisModuleCtx *ctx, RedisModuleString 
     rv = Document_LoadSchemaFieldJson(&doc, &sctx, &status);
     break;
   case DocumentType_Unsupported:
-    RS_LOG_ASSERT(0, "Should receieve valid type");
+    RS_LOG_ASSERT(NULL, 0, "Should receieve valid type", "");
   }
 
   if (rv != REDISMODULE_OK) {

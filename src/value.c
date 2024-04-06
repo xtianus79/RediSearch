@@ -183,7 +183,7 @@ inline void RSValue_SetConstString(RSValue *v, const char *str, size_t len) {
 /* Wrap a string with length into a value object. Doesn't duplicate the string. Use strdup if
  * the value needs to be detached */
 inline RSValue *RS_StringVal(char *str, uint32_t len) {
-  RS_LOG_ASSERT(len <= (UINT32_MAX >> 4), "string length exceeds limit");
+  RS_LOG_ASSERT(NULL, len <= (UINT32_MAX >> 4), "string length exceeds limit", "");
   RSValue *v = RS_NewValue(RSValue_String);
   v->strval.str = str;
   v->strval.len = len;
@@ -230,7 +230,7 @@ RSValue *RS_StealRedisStringVal(RedisModuleString *str) {
 }
 
 void RSValue_MakeRStringOwner(RSValue *v) {
-  RS_LOG_ASSERT(v->t == RSValue_RedisString, "RSvalue type should be string");
+  RS_LOG_ASSERT(NULL, v->t == RSValue_RedisString, "RSvalue type should be string", "");
   v->t = RSValue_OwnRstring;
   RedisModule_RetainString(RSDummyContext, v->rstrval);
 }
@@ -574,7 +574,7 @@ static int RSValue_CmpNC(const RSValue *v1, const RSValue *v2, QueryError *qerr)
 }
 
 int RSValue_Cmp(const RSValue *v1, const RSValue *v2, QueryError *qerr) {
-  RS_LOG_ASSERT(v1 && v2, "missing RSvalue");
+  RS_LOG_ASSERT(NULL, v1 && v2, "missing RSvalue", "");
   if (v1->t == v2->t) {
     return RSValue_CmpNC(v1, v2, qerr);
   }
@@ -621,7 +621,7 @@ int RSValue_Cmp(const RSValue *v1, const RSValue *v2, QueryError *qerr) {
 }
 
 int RSValue_Equal(const RSValue *v1, const RSValue *v2, QueryError *qerr) {
-  RS_LOG_ASSERT(v1 && v2, "missing RSvalue");
+  RS_LOG_ASSERT(NULL, v1 && v2, "missing RSvalue", "");
 
   if (v1->t == v2->t) {
     return RSValue_CmpNC(v1, v2, qerr) == 0;

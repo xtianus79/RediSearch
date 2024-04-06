@@ -146,7 +146,7 @@ else() # OSS RediSearch
     setup_shared_object_target(redisearch "")
     target_link_libraries(redisearch redisearch-geometry VectorSimilarity ${REDISEARCH_LIBS} ${CMAKE_LD_LIBS})
 
-    extract_debug_symbols(redisearch)
+    # extract_debug_symbols(redisearch)
 
     add_dependencies(redisearch VectorSimilarity)
 endif()

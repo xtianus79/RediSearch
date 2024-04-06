@@ -1140,7 +1140,7 @@ static ResultProcessor *getGroupRP(AREQ *req, PLN_GroupStep *gstp, ResultProcess
   if (loadKeys) {
     ResultProcessor *rpLoader = RPLoader_New(req, firstLk, loadKeys, array_len(loadKeys));
     array_free(loadKeys);
-    RS_LOG_ASSERT(rpLoader, "RPLoader_New failed");
+    RS_LOG_ASSERT(NULL, rpLoader, "RPLoader_New failed", "");
     rpUpstream = pushRP(req, rpLoader, rpUpstream);
   }
 
@@ -1272,7 +1272,7 @@ static ResultProcessor *getScorerRP(AREQ *req) {
     scargs.scrExp = rm_calloc(1, sizeof(RSScoreExplain));
   }
   ExtScoringFunctionCtx *fns = Extensions_GetScoringFunction(&scargs, scorer);
-  RS_LOG_ASSERT(fns, "Extensions_GetScoringFunction failed");
+  RS_LOG_ASSERT(NULL, fns, "Extensions_GetScoringFunction failed", "");
   IndexSpec_GetStats(req->sctx->spec, &scargs.indexStats);
   scargs.qdata = req->ast.udata;
   scargs.qdatalen = req->ast.udatalen;
@@ -1301,7 +1301,7 @@ static void buildImplicitPipeline(AREQ *req, QueryError *Status) {
   req->qiter.err = Status;
 
   IndexSpecCache *cache = IndexSpec_GetSpecCache(req->sctx->spec);
-  RS_LOG_ASSERT(cache, "IndexSpec_GetSpecCache failed")
+  RS_LOG_ASSERT(NULL, cache, "IndexSpec_GetSpecCache failed", "");
   RLookup *first = AGPLN_GetLookup(&req->ap, NULL, AGPLN_GETLOOKUP_FIRST);
 
   RLookup_Init(first, cache);
@@ -1520,7 +1520,7 @@ int AREQ_BuildPipeline(AREQ *req, QueryError *status) {
       case PLN_T_INVALID:
       case PLN_T__MAX:
         // not handled yet
-        RS_LOG_ASSERT(0, "Oops");
+        RS_LOG_ASSERT(NULL, 0, "Oops", "");
     }
   }
 

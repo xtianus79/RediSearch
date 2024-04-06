@@ -234,7 +234,7 @@ char **GetStopWordsList(struct StopWordList *sl, size_t *size) {
   }
 
   TrieMapIterator_Free(it);
-  RS_LOG_ASSERT(i == *size, "actual size must equal expected size");
+  RS_LOG_ASSERT(NULL, i == *size, "actual size must equal expected size", "");
 
   return list;
 }

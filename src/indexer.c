@@ -85,7 +85,7 @@ static size_t countMerged(mergedEntry *ent) {
  * nothing to merge.
  */
 static void writeCurEntries(DocumentIndexer *indexer, RSAddDocumentCtx *aCtx, RedisSearchCtx *ctx) {
-  RS_LOG_ASSERT(ctx, "ctx should not be NULL");
+  RS_LOG_ASSERT(NULL, ctx, "ctx should not be NULL", "");
 
   IndexSpec *spec = ctx->spec;
   ForwardIndexIterator it = ForwardIndex_Iterate(aCtx->fwIdx);
@@ -101,7 +101,7 @@ static void writeCurEntries(DocumentIndexer *indexer, RSAddDocumentCtx *aCtx, Re
     }
     if (invidx) {
       entry->docId = aCtx->doc->docId;
-      RS_LOG_ASSERT(entry->docId, "docId should not be 0");
+      RS_LOG_ASSERT(NULL, entry->docId, "docId should not be 0", "");
       writeIndexEntry(spec, invidx, encoder, entry);
       if (Index_StoreFieldMask(spec)) {
         invidx->fieldMask |= entry->fieldMask;
@@ -179,7 +179,7 @@ static void doAssignIds(RSAddDocumentCtx *cur, RedisSearchCtx *ctx) {
       continue;
     }
 
-    RS_LOG_ASSERT(!cur->doc->docId, "docId must be 0");
+    RS_LOG_ASSERT(NULL, !cur->doc->docId, "docId must be 0", "");
     RSDocumentMetadata *md = makeDocumentId(ctx->redisCtx, cur, spec,
                                             cur->options & DOCUMENT_ADD_REPLACE, &cur->status);
     if (!md) {

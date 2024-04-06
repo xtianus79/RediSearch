@@ -43,16 +43,24 @@ add_compile_definitions(
 setup_cc_options()
 
 # Specific to coordinator
-add_compile_options("-fvisibility=hidden")
+add_compile_options("-fvisibility=hidden" "-fPIC")
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
 #----------------------------------------------------------------------------------------------
 
+# include_directories(
+# 	${root}/coord/src
+# 	${root}/deps/libuv/include
+# 	${root}/deps
+# 	${root}/deps/RedisModulesSDK
+# 	${root}/src
+# 	${root}
+# 	${root}/deps/VectorSimilarity/src)
+
 include_directories(
 	${root}/coord/src
-	${root}/deps/libuv/include
 	${root}/deps
 	${root}/deps/RedisModulesSDK
 	${root}/src
@@ -71,7 +79,7 @@ add_subdirectory(src)
 option(VECSIM_STATIC "Build as static library" ON)
 option(VECSIM_BUILD_TESTS "Build vecsim tests" OFF)
 
-include(${root}/build/libuv/libuv.cmake)
+# include(${root}/build/libuv/libuv.cmake)
 include(${root}/build/hiredis/hiredis.cmake)
 
 set(FINAL_OBJECTS
@@ -112,13 +120,13 @@ macro(MODULE_TARGET TYPE)
 		redisearch-${MODULE_NAME_SUFFIX}
 		redisearch-geometry
 		VectorSimilarity
-		${LIBUV_LIBS}
+		uv
 		${HIREDIS_LIBS}
 		${SSL_LIBS})
 
 	setup_shared_object_target(${_moduleName} ${_moduleName})
 
-	extract_debug_symbols(${_moduleName})
+	# extract_debug_symbols(${_moduleName})
 endmacro()
 
 MODULE_TARGET(${COORD_TYPE})
@@ -130,7 +138,7 @@ if (BUILD_COORD_OSS)
 
 	add_library(testdeps STATIC ${FINAL_OBJECTS})
 	target_link_libraries(testdeps
-		${LIBUV_LIBS}
+		uv
 		redisearch-oss
 		redisearch-geometry
 		redismock

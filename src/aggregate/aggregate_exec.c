@@ -215,7 +215,7 @@ static size_t serializeResult(AREQ *req, RedisModule_Reply *reply, const SearchR
           continue;
         }
         const RSValue *v = RLookup_GetItem(kk, &r->rowdata);
-        RS_LOG_ASSERT(v, "v was found in RLookup_GetLength iteration")
+        RS_LOG_ASSERT(NULL, v, "v was found in RLookup_GetLength iteration", "");
 
         RedisModule_Reply_StringBuffer(reply, kk->name, kk->name_len);
 
@@ -513,7 +513,7 @@ done_2_err:
 
     if (resultsLen != REDISMODULE_POSTPONED_ARRAY_LEN && rc == RS_RESULT_OK && resultsLen != nelem) {
       RedisModule_Log(RSDummyContext, "warning", "Failed to predict the number of replied results. Prediction=%ld, actual_number=%ld.", resultsLen, nelem);
-      RS_LOG_ASSERT(0, "Precalculated number of replies must be equal to actual number");
+      RS_LOG_ASSERT(NULL, 0, "Precalculated number of replies must be equal to actual number", "");
     }
 }
 
@@ -817,7 +817,7 @@ static int buildRequest(RedisModuleCtx *ctx, RedisModuleString **argv, int argc,
   (*r)->reqflags |= QEXEC_FORMAT_DEFAULT;
 
   if (AREQ_Compile(*r, argv + 2, argc - 2, status) != REDISMODULE_OK) {
-    RS_LOG_ASSERT(QueryError_HasError(status), "Query has error");
+    RS_LOG_ASSERT(NULL, QueryError_HasError(status), "Query has error", "");
     goto done;
   }
 
@@ -840,7 +840,7 @@ static int buildRequest(RedisModuleCtx *ctx, RedisModuleString **argv, int argc,
   thctx = NULL;
   // ctx is always assigned after ApplyContext
   if (rc != REDISMODULE_OK) {
-    RS_LOG_ASSERT(QueryError_HasError(status), "Query has error");
+    RS_LOG_ASSERT(NULL, QueryError_HasError(status), "Query has error", "");
   }
 
 done:

@@ -50,7 +50,7 @@ static void FGC_updateStats(ForkGC *gc, RedisSearchCtx *sctx, size_t recordsRemo
 }
 
 static void FGC_sendFixed(ForkGC *fgc, const void *buff, size_t len) {
-  RS_LOG_ASSERT(len > 0, "buffer length cannot be 0");
+  RS_LOG_ASSERT(NULL, len > 0, "buffer length cannot be 0", "");
   ssize_t size = write(fgc->pipefd[GC_WRITERFD], buff, len);
   if (size != len) {
     perror("broken pipe, exiting GC fork: write() failed");
@@ -328,7 +328,7 @@ static void countRemain(const RSIndexResult *r, const IndexBlock *blk, void *arg
   if ((ht = ctx->cardVals) == NULL) {
     ht = ctx->cardVals = kh_init(cardvals);
   }
-  RS_LOG_ASSERT(ht, "cardvals should not be NULL");
+  RS_LOG_ASSERT(NULL, ht, "cardvals should not be NULL", "");
   int added = 0;
   // Save the floating-point binary representation of the value.
   numUnion u = {.d48 = r->num.value};
@@ -412,7 +412,7 @@ static void sendKht(ForkGC *gc, const khash_t(cardvals) * kh) {
   }
 
   FGC_SEND_VAR(gc, uniqueSum);
-  RS_LOG_ASSERT(nsent == n, "Not all hashes has been sent");
+  RS_LOG_ASSERT(NULL, nsent == n, "Not all hashes has been sent", "");
 }
 
 static void FGC_childCollectNumeric(ForkGC *gc, RedisSearchCtx *sctx) {
@@ -659,7 +659,7 @@ static void FGC_applyInvertedIndex(ForkGC *gc, InvIdxBuffers *idxData, MSG_Index
   rm_free(idxData->delBlocks);
 
   // Ensure the old index is at least as big as the new index' size
-  RS_LOG_ASSERT(idx->size >= info->nblocksOrig, "Current index size should be larger or equal to original index size");
+  RS_LOG_ASSERT(NULL, idx->size >= info->nblocksOrig, "Current index size should be larger or equal to original index size", "");
 
   if (idxData->newBlocklist) { // the child removed some of the blocks, but not all of them
     /**
@@ -1007,7 +1007,7 @@ static FGCError FGC_parentHandleTags(ForkGC *gc) {
 
     // No more tags values in tag field
     if (value == NULL) {
-      RS_LOG_ASSERT(status == FGC_COLLECTED, "GC status is COLLECTED");
+      RS_LOG_ASSERT(NULL, status == FGC_COLLECTED, "GC status is COLLECTED", "");
       break;
     }
 
@@ -1230,7 +1230,7 @@ static int periodicCb(void *privdata) {
 #endif
 
 void FGC_WaitBeforeFork(ForkGC *gc) NO_TSAN_CHECK {
-  RS_LOG_ASSERT(gc->pauseState == 0, "FGC pause state should be 0");
+  RS_LOG_ASSERT(NULL, gc->pauseState == 0, "FGC pause state should be 0", "");
   gc->pauseState = FGC_PAUSED_CHILD;
 
   while (gc->execState != FGC_STATE_WAIT_FORK) {
@@ -1240,8 +1240,8 @@ void FGC_WaitBeforeFork(ForkGC *gc) NO_TSAN_CHECK {
 
 void FGC_ForkAndWaitBeforeApply(ForkGC *gc) NO_TSAN_CHECK {
   // Ensure that we're waiting for the child to begin
-  RS_LOG_ASSERT(gc->pauseState == FGC_PAUSED_CHILD, "FGC pause state should be CHILD");
-  RS_LOG_ASSERT(gc->execState == FGC_STATE_WAIT_FORK, "FGC exec state should be WAIT_FORK");
+  RS_LOG_ASSERT(NULL, gc->pauseState == FGC_PAUSED_CHILD, "FGC pause state should be CHILD", "");
+  RS_LOG_ASSERT(NULL, gc->execState == FGC_STATE_WAIT_FORK, "FGC exec state should be WAIT_FORK", "");
 
   gc->pauseState = FGC_PAUSED_PARENT;
   while (gc->execState != FGC_STATE_WAIT_APPLY) {

@@ -136,7 +136,7 @@ static uint32_t cnTokenizer_Next(RSTokenizer *base, Token *t) {
     friso_token_t tok = config_g->next_token(friso_g, config_g, self->fTask);
     if (tok == NULL) {
       if (useEscBuf) {
-        RS_LOG_ASSERT(tokInit, "should not get here");
+        RS_LOG_ASSERT(NULL, tokInit, "should not get here", "");
         t->tokLen = self->nescapebuf;
         t->tok = self->escapebuf;
         return t->pos;

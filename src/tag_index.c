@@ -163,7 +163,7 @@ int TagIndex_Preprocess(const FieldSpec *fs, const DocumentField *data, FieldInd
   case FLD_VAR_T_NUM:
   case FLD_VAR_T_BLOB_ARRAY:
   case FLD_VAR_T_GEOMETRY:
-    RS_LOG_ASSERT(0, "nope")
+    RS_LOG_ASSERT(NULL, 0, "nope", "");
   }
   fdata->tags = arr;
   return ret;
@@ -360,7 +360,7 @@ void *TagIndex_RdbLoad(RedisModuleIO *rdb, int encver) {
     size_t slen;
     char *s = RedisModule_LoadStringBuffer(rdb, &slen);
     InvertedIndex *inv = InvertedIndex_RdbLoad(rdb, INVERTED_INDEX_ENCVER);
-    RS_LOG_ASSERT(inv, "loading inverted index from rdb failed");
+    RS_LOG_ASSERT(NULL, inv, "loading inverted index from rdb failed", "");
     TrieMap_Add(idx->values, s, MIN(slen, MAX_TAG_LEN), inv, NULL);
     RedisModule_Free(s);
   }
@@ -381,7 +381,7 @@ void TagIndex_RdbSave(RedisModuleIO *rdb, void *value) {
     InvertedIndex *inv = ptr;
     InvertedIndex_RdbSave(rdb, inv);
   }
-  RS_LOG_ASSERT(count == idx->values->cardinality, "not all inverted indexes save to rdb");
+  RS_LOG_ASSERT(NULL, count == idx->values->cardinality, "not all inverted indexes save to rdb", "");
   TrieMapIterator_Free(it);
 }
 

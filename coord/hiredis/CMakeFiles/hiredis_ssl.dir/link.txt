@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhiredis_ssl.a CMakeFiles/hiredis_ssl.dir/ssl.c.o
+/usr/bin/ranlib libhiredis_ssl.a

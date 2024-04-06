@@ -467,7 +467,7 @@ int MRIteratorCallback_Done(MRIteratorCallbackCtx *ctx, int error) {
   int pending = --ctx->ic->pending; // Decrease `pending` before decreasing `inProcess`
   MRIteratorCallback_ProcessDone(ctx);
   if (pending <= 0) {
-    RS_LOG_ASSERT(pending >= 0, "Pending should not reach a negative value");
+    RS_LOG_ASSERT(NULL, pending >= 0, "Pending should not reach a negative value", "");
     // fprintf(stderr, "FINISHED iterator, error? %d pending %d\n", error, ctx->ic->pending);
     MRChannel_Close(ctx->ic->chan);
     return 0;

@@ -957,7 +957,7 @@ static int __partial_Next(TrieMapIterator *it, __tmi_stackNode *sn, char **ptr, 
       if (!found) goto end;
     }
   }
-  RS_LOG_ASSERT(termOffset == it->prefixLen, "oops");
+  RS_LOG_ASSERT(NULL, termOffset == it->prefixLen, "oops", "");
 
   // in suffix mode we return only an exact terminal node
   if (it->mode == TM_SUFFIX_MODE) {

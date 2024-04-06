@@ -32,7 +32,7 @@ static bool getCursorCommand(MRReply *res, MRCommand *cmd, MRIteratorCtx *ctx) {
     return false;
   }
 
-  RS_LOG_ASSERT(cmd->num >= 2, "Invalid command?!");
+  RS_LOG_ASSERT(NULL, cmd->num >= 2, "Invalid command?!", "");
 
   // Check if the coordinator experienced a timeout or not
   bool timedout = MRIteratorCallback_GetTimedOut(ctx);
@@ -198,12 +198,12 @@ RSValue *MRReply_ToValue(MRReply *r) {
       break;
     case MR_REPLY_MAP: {
       size_t n = MRReply_Length(r);
-      RS_LOG_ASSERT(n % 2 == 0, "map of odd length");
+      RS_LOG_ASSERT(NULL, n % 2 == 0, "map of odd length", "");
       RSValue **map = rm_malloc(n * sizeof(*map));
       for (size_t i = 0; i < n; ++i) {
         MRReply *e = MRReply_ArrayElement(r, i);
         if (i % 2 == 0) {
-          RS_LOG_ASSERT(MRReply_Type(e) == MR_REPLY_STRING, "non-string map key");
+          RS_LOG_ASSERT(NULL, MRReply_Type(e) == MR_REPLY_STRING, "non-string map key", "");
         }
         map[i] = MRReply_ToValue(e);
       }
@@ -304,7 +304,7 @@ static const RLookupKey *keyForField(RPNet *nc, const char *s) {
 void processResultFormat(uint32_t *flags, MRReply *map) {
   // Logic of which format to use is done by the shards
   MRReply *format = MRReply_MapElement(map, "format");
-  RS_LOG_ASSERT(format, "missing format specification");
+  RS_LOG_ASSERT(NULL, format, "missing format specification", "");
   if (MRReply_StringEquals(format, "EXPAND", false)) {
     *flags |= QEXEC_FORMAT_EXPAND;
   } else {
@@ -337,7 +337,7 @@ static int rpnetNext(ResultProcessor *self, SearchResult *r) {
       size_t len;
       if (resp3) {
         MRReply *results = MRReply_MapElement(rows, "results");
-        RS_LOG_ASSERT(results, "invalid results record: missing 'results' key");
+        RS_LOG_ASSERT(NULL, results, "invalid results record: missing 'results' key", "");
         len = MRReply_Length(results);
       } else {
         len = MRReply_Length(rows);
@@ -416,7 +416,7 @@ static int rpnetNext(ResultProcessor *self, SearchResult *r) {
     if (resp3) { // RESP3
       nc->curIdx = 0;
       MRReply *results = MRReply_MapElement(rows, "results");
-      RS_LOG_ASSERT(results, "invalid results record: missing 'results' key");
+      RS_LOG_ASSERT(NULL, results, "invalid results record: missing 'results' key", "");
       nc->base.parent->totalResults += MRReply_Length(results);
     } else { // RESP2
       // Get the index from the first
@@ -428,11 +428,11 @@ static int rpnetNext(ResultProcessor *self, SearchResult *r) {
   if (resp3) // RESP3
   {
     MRReply *results = MRReply_MapElement(rows, "results");
-    RS_LOG_ASSERT(results && MRReply_Type(results) == MR_REPLY_ARRAY, "invalid results record");
+    RS_LOG_ASSERT(NULL, results && MRReply_Type(results) == MR_REPLY_ARRAY, "invalid results record", "");
     MRReply *result = MRReply_ArrayElement(results, nc->curIdx++);
-    RS_LOG_ASSERT(result && MRReply_Type(result) == MR_REPLY_MAP, "invalid result record");
+    RS_LOG_ASSERT(NULL, result && MRReply_Type(result) == MR_REPLY_MAP, "invalid result record", "");
     MRReply *fields = MRReply_MapElement(result, "extra_attributes");
-    RS_LOG_ASSERT(fields && MRReply_Type(fields) == MR_REPLY_MAP, "invalid fields record");
+    RS_LOG_ASSERT(NULL, fields && MRReply_Type(fields) == MR_REPLY_MAP, "invalid fields record", "");
 
     processResultFormat(&nc->areq->reqflags, rows);
 

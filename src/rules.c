@@ -22,7 +22,7 @@ const char *DocumentType_ToString(DocumentType type) {
       return "JSON";
     case DocumentType_Unsupported:
     default:
-      RS_LOG_ASSERT(true, "SchameRuleType_Any is not supported");
+      RS_LOG_ASSERT(NULL, true, "SchameRuleType_Any is not supported", "");
       return "";
   }
 }

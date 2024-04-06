@@ -282,7 +282,7 @@ size_t RLookup_GetLength(const RLookup *lookup, const RLookupRow *r, int *skipFi
     skipFieldIndex[i] = 1;
     ++nfields;
   }
-  RS_LOG_ASSERT(i == lookup->rowlen, "'i' should be equal to lookup len");
+  RS_LOG_ASSERT(NULL, i == lookup->rowlen, "'i' should be equal to lookup len", "");
   return nfields;
 }
 
@@ -441,7 +441,7 @@ static RSValue *jsonValToValue(RedisModuleCtx *ctx, RedisJSON json) {
     case JSONType__EOF:
       break;
   }
-  RS_LOG_ASSERT(0, "Cannot get here");
+  RS_LOG_ASSERT(NULL, 0, "Cannot get here", "");
 }
 
 // {"a":1, "b":[2, 3, {"c": "foo"}, 4], "d": null}
@@ -752,7 +752,7 @@ done:
     switch (type) {
     case DocumentType_Hash: RedisModule_CloseKey(key); break;
     case DocumentType_Json: break;
-    case DocumentType_Unsupported: RS_LOG_ASSERT(1, "placeholder");
+    case DocumentType_Unsupported: RS_LOG_ASSERT(NULL, 1, "placeholder", "");
     }
   }
   return rc;

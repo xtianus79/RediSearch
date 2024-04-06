@@ -76,7 +76,7 @@ static t_docId *geoRangeLoad(const GeoIndex *gi, const GeoFilter *gf, size_t *nu
   *num = 0;
   t_docId *docIds = NULL;
   RedisModuleString *s = IndexSpec_GetFormattedKey(gi->ctx->spec, gi->sp, INDEXFLD_T_GEO);
-  RS_LOG_ASSERT(s, "failed to retrive key");
+  RS_LOG_ASSERT(NULL, s, "failed to retrive key", "");
   /*GEORADIUS key longitude latitude radius m|km|ft|mi */
   RedisModuleCtx *ctx = gi->ctx->redisCtx;
   RedisModuleString *slon = RedisModule_CreateStringPrintf(ctx, "%f", gf->lon);
