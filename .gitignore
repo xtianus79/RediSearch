@@ -51,6 +51,7 @@ callgrind.out.*
 /coord/CMakeFiles/
 /coord/hiredis/
 /coord/search/
+/coord/src/CMakeFiles/
 
 cmake_install.cmake
 CMakeCache.txt
