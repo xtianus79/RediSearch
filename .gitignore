@@ -28,6 +28,8 @@ callgrind.out.*
 /1/
 /.install/boost*
 
+/CMakeFiles/
+
 /deps/googletest/
 /deps/hiredis/
 /deps/libuv/
