@@ -41,6 +41,7 @@ callgrind.out.*
 /deps/snowball/CMakeFiles/snowball.dir/compiler_depend.make
 /src/geometry/CMakeFiles/redisearch-geometry.dir/compiler_depend.make
 /coord/src/rmr/CMakeFiles/rmr.dir/flags.make
+/coord/src/rmr/CMakeFiles/rmr.dir/compiler_depend.make
 
 # Ignore CMake generated files
 **/CMakeFiles/
