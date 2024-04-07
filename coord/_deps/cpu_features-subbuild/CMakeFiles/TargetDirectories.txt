@@ -1,3 +1,0 @@
-/mnt/c/repos/RediSearch/coord/_deps/cpu_features-subbuild/CMakeFiles/cpu_features-populate.dir
-/mnt/c/repos/RediSearch/coord/_deps/cpu_features-subbuild/CMakeFiles/edit_cache.dir
-/mnt/c/repos/RediSearch/coord/_deps/cpu_features-subbuild/CMakeFiles/rebuild_cache.dir
