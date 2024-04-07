@@ -42,6 +42,12 @@ deps/VectorSimilarity/*
 /deps/phonetics/CMakeFiles/metaphone.dir/flags.make
 /deps/rmutil/CMakeFiles/rmutil.dir/flags.make
 /deps/snowball/CMakeFiles/snowball.dir/flags.make
+/src/geometry/CMakeFiles/redisearch-geometry.dir/compiler_depend.make
+/deps/friso/CMakeFiles/friso.dir/compiler_depend.make
+/deps/phonetics/CMakeFiles/metaphone.dir/compiler_depend.make
+/deps/rmutil/CMakeFiles/rmutil.dir/compiler_depend.make
+/deps/snowball/CMakeFiles/snowball.dir/compiler_depend.make
+/src/geometry/CMakeFiles/redisearch-geometry.dir/compiler_depend.make
 
 # Ignore CMake generated files
 **/CMakeFiles/
