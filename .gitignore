@@ -38,6 +38,16 @@ callgrind.out.*
 /deps/s2geometry/
 /deps/VectorSimilarity/
 
+/deps/friso/CMakeFiles/friso.dir/flags.make
+/deps/phonetics/CMakeFiles/metaphone.dir/flags.make
+/deps/rmutil/CMakeFiles/rmutil.dir/flags.make
+/deps/snowball/CMakeFiles/snowball.dir/flags.make
+
+# Ignore CMake generated files
+**/CMakeFiles/
+**/*.dir/
+**/_deps/
+
 /_deps/
 /deps/Makefile
 
