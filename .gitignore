@@ -56,6 +56,7 @@ callgrind.out.*
 /coord/CMakeCache.txt
 /coord/CPackConfig.cmake
 /coord/CPackSourceConfig.cmake
+/coord/CTestTestfile.cmake
 /coord/CTestfile.cmake
 /coord/_deps/
 /coord/CMakeFiles/
