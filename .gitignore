@@ -30,14 +30,6 @@ callgrind.out.*
 
 /CMakeFiles/
 
-deps/googletest/*
-deps/hiredis/*
-deps/libuv/*
-deps/readies/*
-deps/RedisModulesSDK/*
-deps/s2geometry/*
-deps/VectorSimilarity/*
-
 /deps/friso/CMakeFiles/friso.dir/flags.make
 /deps/phonetics/CMakeFiles/metaphone.dir/flags.make
 /deps/rmutil/CMakeFiles/rmutil.dir/flags.make
