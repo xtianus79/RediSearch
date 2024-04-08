@@ -10,18 +10,20 @@
 #include "module.h"
 
 #ifdef NDEBUG
-#define RS_LOG_ASSERT(ctx, condition, fmt, ...) ((void)0)
+#define RS_LOG_ASSERT_FMT(ctx, condition, fmt, ...) ((void)0)
+#define RS_LOG_ASSERT(ctx, condition, str) ((void)0)
 #define RS_LOG_ASSERT_STR(ctx, condition, str) ((void)0)
 #else
 #include <assert.h>
-#define RS_LOG_ASSERT(ctx, condition, fmt, ...) \
+#define RS_LOG_ASSERT_FMT(ctx, condition, fmt, ...) \
     do { \
         if (__builtin_expect(!(condition), 0)) { \
             RedisModule_Log(ctx, "warning", (fmt), __VA_ARGS__); \
             assert(condition); /* Crashes server and create a crash report */ \
         } \
     } while (0)
-#define RS_LOG_ASSERT_STR(ctx, condition, str) RS_LOG_ASSERT(ctx, condition, "%s", str)
+#define RS_LOG_ASSERT(ctx, condition, str) RS_LOG_ASSERT_FMT(ctx, condition, "%s", str)
+#define RS_LOG_ASSERT_STR(ctx, condition, str) RS_LOG_ASSERT(ctx, condition, str)
 #endif // NDEBUG
 
 #define RS_CHECK_FUNC(funcName, ...) \
