@@ -11,7 +11,7 @@
 
 #ifdef NDEBUG
 #define RS_LOG_ASSERT_FMT(ctx, condition, fmt, ...) ((void)0)
-#define RS_LOG_ASSERT(ctx, condition, str) ((void)0)
+#define RS_LOG_ASSERT(ctx, condition, fmt, ...) ((void)0)
 #define RS_LOG_ASSERT_STR(ctx, condition, str) ((void)0)
 #else
 #include <assert.h>
@@ -22,8 +22,8 @@
             assert(condition); /* Crashes server and create a crash report */ \
         } \
     } while (0)
-#define RS_LOG_ASSERT(ctx, condition, str) RS_LOG_ASSERT_FMT(ctx, condition, "%s", str)
-#define RS_LOG_ASSERT_STR(ctx, condition, str) RS_LOG_ASSERT(ctx, condition, str)
+#define RS_LOG_ASSERT(ctx, condition, fmt, ...) RS_LOG_ASSERT_FMT(ctx, condition, fmt, __VA_ARGS__)
+#define RS_LOG_ASSERT_STR(ctx, condition, str) RS_LOG_ASSERT(ctx, condition, "%s", str)
 #endif // NDEBUG
 
 #define RS_CHECK_FUNC(funcName, ...) \
